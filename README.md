@@ -1,4 +1,6 @@
-# Simple Vector implementation in python 
+# Simple Vector implementation in python
+
+[![Build Status](https://travis-ci.com/mfocko/open-source-development-course-hw02-1.svg?branch=pr%2Fstep1)](https://travis-ci.com/mfocko/open-source-development-course-hw02-1)
 
 Very simple vector implementation supporting basic operations.
 
@@ -11,11 +13,18 @@ print(a)
 ```
 
 Operations:
-- Addition with a scalar `a+1`
+
+- Addition with a scalar: `a + 1`
 - Vector addition: `a + b`
+- Length of vector: `a.length()`
+- Comparison of vectors: `a < b`
+- Negation of vectors: `-a`
+- Subtraction of vectors: `a - b`
+- Multiplication by scalar: `a * c`
+- XOR with scalar: `a ^ c`
 
 ## Installation
 
 ```bash
-pip install -U --no-cache . 
+pip install -U --no-cache .
 ```

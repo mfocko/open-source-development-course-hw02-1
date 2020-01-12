@@ -2,6 +2,9 @@
 # https://rszalski.github.io/magicmethods/
 
 
+import math
+
+
 class Vector:
     def __init__(self, arr=None, size=None):
         self.d = arr if arr is not None else (([0] * size) if size else [])
@@ -25,7 +28,7 @@ class Vector:
         return len(self.d)
 
     def __repr__(self):
-        return str(self.d)
+        return f"Vector({str(self.d)})"
 
     def __getitem__(self, item):
         return self.d[item]
@@ -34,19 +37,30 @@ class Vector:
         return sum(self.d)
 
     def __setitem__(self, key, value):
-        # TODO: implement
-        return None
+        self.d[key] = value
 
     def __cmp__(self, other):
-        # TODO: implement, -1 if self < other, 0 if self == other, 1 if self > other
-        return -1
+        len_self, len_other = len(self), len(other)
+        if len_self < len_other:
+            return -1
+
+        if len_self > len_other:
+            return 1
+
+        for x, y in zip(self.d, other.d):
+            if x < y:
+                return -1
+
+            if x > y:
+                return 1
+
+        return 0
 
     def __neg__(self):
         return Vector([-x for x in self.d])
 
     def __reversed__(self):
-        # TODO: implement vector element reversal (hint: list(reversed(self.d)))
-        return Vector()
+        return Vector(list(reversed(self.d)))
 
     def __add__(self, other):
         if isinstance(other, int):
@@ -55,17 +69,14 @@ class Vector:
             return Vector([self.d[i] + other[i] for i in range(len(self))])
 
     def __sub__(self, other):
-        # TODO: implement vector subtraction
-        return None
+        # uses already defined multiplication by scalar and addition
+        return self + (other * -1)
 
     def __mul__(self, other):
-        # TODO: implement vector multiplication by a scalar value
-        return None
+        return Vector([x * other for x in self.d])
 
     def __xor__(self, other):
-        # TODO: implement bit-wise XOR with a scalar value
-        return None
+        return Vector([x ^ other for x in self.d])
 
     def length(self):
-        # TODO: implement vector length comp. (hint: return math.sqrt(sum(x*x for x in self.d)))
-        return None
+        return math.sqrt(sum(x ** 2 for x in self.d))
