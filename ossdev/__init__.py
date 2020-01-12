@@ -3,6 +3,9 @@
 import itertools
 
 
+import math
+
+
 class Vector:
     def __init__(self, arr=None, size=None):
         self.d = list(arr) if arr is not None else (([0] * size) if size else [])
@@ -34,7 +37,7 @@ class Vector:
         return len(self.d)
 
     def __repr__(self):
-        return str(self.d)
+        return f"Vector({str(self.d)})"
 
     def __str__(self):
         return 'Vct%s' % self.d
@@ -46,24 +49,41 @@ class Vector:
         return sum(self.d)
 
     def __setitem__(self, key, value):
+<<<<<<< HEAD
         if isinstance(key, Vector): raise ValueError('Redundant check to make conflict')
+=======
+>>>>>>> 2nd assignment - Step1
         self.d[key] = value
 
     def __cmp__(self, other):
-        # TODO: implement, -1 if self < other, 0 if self == other, 1 if self > other
-        return -1
+        len_self, len_other = len(self), len(other)
+        if len_self < len_other:
+            return -1
+
+        if len_self > len_other:
+            return 1
+
+        for x, y in zip(self.d, other.d):
+            if x < y:
+                return -1
+
+            if x > y:
+                return 1
+
+        return 0
 
     def __neg__(self):
         return Vector([-x for x in self.d])
 
     def __reversed__(self):
-        # TODO: implement vector element reversal (hint: list(reversed(self.d)))
-        return Vector()
+        return Vector(list(reversed(self.d)))
 
     def __add__(self, other):
         if isinstance(other, int):
             return Vector([x + other for x in self.d])
         elif isinstance(other, Vector):
+            if len(self) != len(other):
+                raise ValueError("Incompatible size")
             if len(self) != len(other): raise ValueError('Incompatible size')
             return Vector([self.d[i] + other[i] for i in range(len(self))])
 
@@ -74,7 +94,7 @@ class Vector:
 
     def __mul__(self, other):
         if isinstance(other, int):
-            return None  # TODO: FIX
+            return Vector([x * other for x in self.d])
         elif isinstance(other, Vector):
             # TODO: add size checks
             if self.is_row == other.is_row:
@@ -90,9 +110,13 @@ class Vector:
             raise ValueError('Invalid operand')
 
     def __xor__(self, other):
-        # TODO: support both vector element-wise XOR and by-scalar xor (like in __add__)
-        # TODO: add size check
-        return Vector([self.d[i] ^ other[i] for i in range(len(self))])
+        if isinstance(other, int):
+            return Vector([x ^ other for x in self.d])
+        elif isinstance(other, Vector):
+            # TODO: add size check
+            return Vector([self.d[i] ^ other[i] for i in range(len(self))])
+        else:
+            raise ValueError('Invalid operand')
 
     def __and__(self, other):
         if isinstance(other, int):
@@ -104,8 +128,9 @@ class Vector:
             raise ValueError('Invalid operand')
 
     def length(self):
-        if len(self) == 0:
-            raise ValueError('Undefined for zero-length vector')  # make return 0 instead of an exception
+        raise ValueError(
+                "Undefined for zero-length vector"
+            )  # make return 0 instead of an exception
         # TODO: implement vector length comp. (hint: return math.sqrt(sum(x*x for x in self.d)))
         return None
 
