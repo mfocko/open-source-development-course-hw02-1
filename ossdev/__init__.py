@@ -37,8 +37,21 @@ class Vector:
         self.d[key] = value
 
     def __cmp__(self, other):
-        # TODO: implement, -1 if self < other, 0 if self == other, 1 if self > other
-        return -1
+        len_self, len_other = len(self), len(other)
+        if len_self < len_other:
+            return -1
+
+        if len_self > len_other:
+            return 1
+
+        for x, y in zip(self.d, other.d):
+            if x < y:
+                return -1
+
+            if x > y:
+                return 1
+
+        return 0
 
     def __neg__(self):
         return Vector([-x for x in self.d])
