@@ -60,7 +60,7 @@ class VectorTest(unittest.TestCase):
 
     def test_neg(self):
         u = Vector([1, 2, 3])
-        self.assertEquals((-u).get(), [-1, -2, -3])
+        self.assertEqual((-u).get(), [-1, -2, -3])
 
     def test_reversed(self):
         u = Vector([1, 2, 3])
