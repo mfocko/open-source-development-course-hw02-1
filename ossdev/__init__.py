@@ -28,7 +28,7 @@ class Vector:
         return len(self.d)
 
     def __repr__(self):
-        return str(self.d)
+        return f"Vector({str(self.d)})"
 
     def __getitem__(self, item):
         return self.d[item]
