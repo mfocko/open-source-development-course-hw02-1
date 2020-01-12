@@ -2,6 +2,9 @@
 # https://rszalski.github.io/magicmethods/
 
 
+import math
+
+
 class Vector:
     def __init__(self, arr=None, size=None):
         self.d = arr if arr is not None else (([0] * size) if size else [])
