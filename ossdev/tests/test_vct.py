@@ -98,6 +98,17 @@ class VectorTest(unittest.TestCase):
         for vector, length in test_cases:
             self.assertEqual(vector.length(), length)
 
+    def test_lenght(self):
+        # Uncomment after passing
+        self.assertAlmostEqual(Vector([2, 4]).length(), 4.47213595499, 3)
+        self.assertAlmostEqual(Vector([2, 4, 5]).length(), 6.708203932499369, 3)
+
+    def test_transpose(self):
+        u = Vector([1, 2, 3])
+        self.assertEqual(u.is_row, False)
+        v = u.transpose()
+        self.assertEqual(v.is_row, True)
+
 
 if __name__ == "__main__":
     unittest.main()  # pragma: no cover

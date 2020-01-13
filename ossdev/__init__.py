@@ -40,7 +40,7 @@ class Vector:
         return f"Vector({str(self.d)})"
 
     def __str__(self):
-        return 'Vct%s' % self.d
+        return "Vct%s" % self.d
 
     def __getitem__(self, item):
         return self.d[item]
@@ -49,10 +49,6 @@ class Vector:
         return sum(self.d)
 
     def __setitem__(self, key, value):
-<<<<<<< HEAD
-        if isinstance(key, Vector): raise ValueError('Redundant check to make conflict')
-=======
->>>>>>> 2nd assignment - Step1
         self.d[key] = value
 
     def __cmp__(self, other):
@@ -78,66 +74,68 @@ class Vector:
     def __reversed__(self):
         return Vector(list(reversed(self.d)))
 
+    def __size_check(self, other):
+        if len(self) != len(other):
+            raise ValueError("Incompatible size")
+
     def __add__(self, other):
         if isinstance(other, int):
             return Vector([x + other for x in self.d])
         elif isinstance(other, Vector):
-            if len(self) != len(other):
-                raise ValueError("Incompatible size")
-            if len(self) != len(other): raise ValueError('Incompatible size')
+            self.__size_check(other)
             return Vector([self.d[i] + other[i] for i in range(len(self))])
 
     def __sub__(self, other):
-        # TODO: implement vector subtraction, comment change to make conflict
-        # you may use __add__() and negation, like return (-self + other)
-        return None
+        return self + (-other)
 
     def __mul__(self, other):
         if isinstance(other, int):
             return Vector([x * other for x in self.d])
         elif isinstance(other, Vector):
-            # TODO: add size checks
+            self.__size_check(other)
             if self.is_row == other.is_row:
-                return Vector([self.d[i] * other[i] for i in range(len(self))])  # Hadamard product
+                return Vector(
+                    [self.d[i] * other[i] for i in range(len(self))]
+                )  # Hadamard product
             elif self.is_row:
-                return self.dot(other)  # row x col is a dot-product (check matrix mult.)
+                return self.dot(
+                    other
+                )  # row x col is a dot-product (check matrix mult.)
             else:
                 m = Matrix.square(len(self))  # a matrix
                 for i, j in m.index_iter():
                     m[i][j] = self[i] * other[j]
                 return m
         else:
-            raise ValueError('Invalid operand')
+            raise ValueError("Invalid operand")
 
     def __xor__(self, other):
         if isinstance(other, int):
             return Vector([x ^ other for x in self.d])
         elif isinstance(other, Vector):
-            # TODO: add size check
+            self.__size_check(other)
             return Vector([self.d[i] ^ other[i] for i in range(len(self))])
         else:
-            raise ValueError('Invalid operand')
+            raise ValueError("Invalid operand")
 
     def __and__(self, other):
         if isinstance(other, int):
             return Vector([x & other for x in self.d])
         elif isinstance(other, Vector):
-            # TODO: add size check
+            self.__size_check(other)
             return Vector([self.d[i] & other[i] for i in range(len(self))])
         else:
-            raise ValueError('Invalid operand')
+            raise ValueError("Invalid operand")
 
     def length(self):
-        raise ValueError(
-                "Undefined for zero-length vector"
-            )  # make return 0 instead of an exception
-        # TODO: implement vector length comp. (hint: return math.sqrt(sum(x*x for x in self.d)))
-        return None
+        if len(self) == 0:
+            # sum on empty list returns 0, so I don't really understand
+            # the point, whatever
+            return 0
+        return math.sqrt(sum(x * x for x in self.d))
 
     def dot(self, other):
-        # TODO: implement dot-product, i.e., a.b = \sum_i a[i]*b[i],
-        # return sum(self[i]*other[i] for i in range(len(self)))
-        return 0
+        return sum(self[i] * other[i] for i in range(len(self)))
 
     def transpose(self):
         v = Vector(self.d)
@@ -172,10 +170,10 @@ class Matrix:
         self.vs[key] = Vector.from_arr(value.get())
 
     def __repr__(self):
-        return ', '.join([repr(x) for x in self.vs])
+        return ", ".join([repr(x) for x in self.vs])
 
     def __str__(self):
-        return 'Matrix: [\n ' + '\n '.join([repr(x) for x in self.vs]) + '\n]'
+        return "Matrix: [\n " + "\n ".join([repr(x) for x in self.vs]) + "\n]"
 
     @classmethod
     def from_matrix(cls, o):
@@ -197,12 +195,12 @@ class Matrix:
 
     def check_matrix(self, other):
         if not isinstance(other, Matrix):
-            raise ValueError('Not a matrix')
+            raise ValueError("Not a matrix")
 
     def check_dim(self, other):
         self.check_matrix(other)
         if self._dim != other.dim:
-            raise ValueError('Incompatible matrix')
+            raise ValueError("Incompatible matrix")
 
     def __add__(self, other):
         self.check_dim(other)
